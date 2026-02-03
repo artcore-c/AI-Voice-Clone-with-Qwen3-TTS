@@ -14,7 +14,7 @@ Unlike many creator-facing TTS systems, Qwen3-TTS is fully open-source (Apache 2
 
 This repository focuses primarily on **voice cloning workflows for creators**. Qwen3-TTS also supports preset voices and text-designed speakers which we've included for additional testing.
 
-> Note: [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) is a recent release, so this project is perhaps a bit more experimental than our prior work and the foundation we built with [AI-Voice-Clone-with-Coqui-XTTS-v2](https://github.com/artcore-c/AI-Voice-Clone-with-Coqui-XTTS-v2/), though early results have been promising, and serves as an extension of our continued exploration with Colab-based voice cloning notebooks.
+> Note: [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) is a recent release, so this project is perhaps a bit more experimental than our prior work and the foundation we built with [AI-Voice-Clone-with-Coqui-XTTS-v2](https://github.com/artcore-c/AI-Voice-Clone-with-Coqui-XTTS-v2/), _(though early results have been promising)_ and serves as an extension of our continued exploration with Colab-based voice cloning notebooks.
 
 ---
 ## How It Works
