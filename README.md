@@ -168,7 +168,7 @@ ___
 
 ---
 
-## Notebook Build Guide (Google Colab)
+## Notebook Build Guide
 
 This project does not provide a prebuilt Colab notebook.
 
