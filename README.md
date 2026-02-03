@@ -186,7 +186,7 @@ from qwen_tts import Qwen3TTSModel
 model = Qwen3TTSModel.from_pretrained(
     "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
     device_map="cuda:0",
-    dtype=torch.float16,
+    dtype=torch.bfloat16,
 )
 
 print("Model loaded")
@@ -264,7 +264,7 @@ Generation will be slower but more natural and closer to real speech.
 - **Preset voices:** Preset speakers are strongest in their native accents/languages—try a few for best English results.  ￼
 - **Long narration:** Generate long scripts in segments (e.g., 30–90 seconds) for smoother iteration.
 
-> **Note:** While our development platform is Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
+> **Note:** While our local development platform is Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
 
 ---
 ## Notes:
