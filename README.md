@@ -1,25 +1,25 @@
 # AI-Voice-Clone-with-Qwen3-TTS
 
-**Voice cloning and text-to-speech via Google Colab using Qwen3-TTS**
-
-Preset voices and voice cloning from your own audio. Runs entirely on Colab's GPU — model weights pull from HuggingFace, inference stays local. No external accounts or API keys required.
-
-Built around [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) by Alibaba/Qwen — **Apache 2.0**.
+Free voice cloning for creators using **Qwen3-TTS** on Google Colab.  
+Clone your voice from as little as **3–20 seconds of audio** for consistent narration and voiceovers.  
+Complete guide to build your own Colab notebook. **Apache 2.0 licensed.**
 
 ---
 
-## Features
+## Overview
 
-- **Voice Cloning** — clone from as little as 3 seconds of reference audio
-- **9 Preset Voices** — multilingual, with instruction-based style and emotion control
-- **Voice Design** — generate entirely new voices from a text description (1.7B only)
-- **10 Languages** — Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian
-- **Streaming capable** — 97ms end-to-end synthesis latency
-- **No watermarks** — clean audio output
+**Qwen3-TTS** is a multilingual text-to-speech system with high-quality **zero-shot voice cloning** capabilities.  
+It uses a discrete speech-token language-model architecture combined with a flow-matching decoder to generate natural speech that preserves speaker identity, cadence, and tone from a short reference clip.
+
+Unlike many creator-facing TTS systems, Qwen3-TTS is fully open-source (Apache 2.0), produces **unwatermarked audio**, and does not require external APIs or paid inference services.
+
+This repository focuses specifically on **voice cloning workflows for creators**, even though Qwen3-TTS also supports preset voices and text-designed speakers.
 
 ---
 
 ## How It Works
+
+### Voice Cloning Process
 
 Qwen3-TTS uses a discrete speech-token language-model architecture and supports a dual-track hybrid streaming mode for low-latency synthesis. The process differs depending on whether you're using a preset voice or cloning:
 
@@ -27,13 +27,34 @@ Qwen3-TTS uses a discrete speech-token language-model architecture and supports 
 
 **Voice cloning** uses the Base model. You provide a reference audio clip and its transcription. The model extracts acoustic features — pitch, tone, cadence, speaking style — and encodes them into a speaker embedding. That embedding is then used to synthesize new text in your voice. The transcription (`ref_text`) gives the model a phonetic alignment target, which improves accuracy over audio alone.
 
+- **Audio Analysis** — The model analyzes your reference audio to extract acoustic features such as pitch, tone, cadence, and speaking style.
+- **Speaker Encoding** — These features are encoded into a speaker embedding that represents your vocal identity.
+- **Text-to-Speech Generation** — Given new text, the model synthesizes speech that matches the learned speaker characteristics.
+- **Waveform Synthesis** — The generated speech tokens are decoded into a high-quality waveform suitable for narration and post-production.
+
+Providing the transcription of your reference clip (`ref_text`) improves phonetic alignment and cloning accuracy, especially with very short samples.
+
 **Voice design** (1.7B only) generates a brand new speaker from a text description. No reference audio needed — just describe the voice characteristics you want.
+
+---
+
+## Technical Stack
+
+- **Model:** Qwen3-TTS (0.6B and 1.7B variants)
+- **Framework:** PyTorch with CUDA acceleration
+- **Inference:** Runs on Google Colab’s free NVIDIA T4 GPU (16 GB VRAM)
+- **Sample Rate:** 24 kHz output
+- **Languages:** Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian
 
 ---
 
 ## Why Google Colab?
 
-Running TTS inference on CPU is slow — GPU acceleration is essential for practical use. Colab's free T4 GPU (16 GB VRAM) is enough to run all Qwen3-TTS model sizes without any local hardware. No Python installation needed locally. Everything runs in the notebook.
+Qwen3-TTS benefits from GPU-accelerated inference, which supports practical voice cloning workflows and faster iteration.
+
+Google Colab provides free access to GPU-accelerated computing well-suited for running Qwen3-TTS models without local setup. A single T4 GPU is sufficient to run all Qwen3-TTS models used in this guide without any local hardware, paid cloud services, or complex setup. No Python installation needed locally. Everything runs in the notebook.
+
+All inference runs **inside your Colab session** — no audio is uploaded to third-party APIs.
 
 ---
 
