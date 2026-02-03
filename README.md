@@ -144,9 +144,16 @@ This repository was created as a companion to the YouTube video covering:
 
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
-3. For **Preset/Custom Voice** run cells 1 - 8 in order  
-   _(first run will download model weights)_
-4. For **Voice Cloning** run cells 9 - 13 in order
+
+3. **Preset / Custom Voice**
+   - Run Cells **1–8** in order  
+     _(first run will download model weights)_
+
+4. **Voice Cloning**
+   - Run Cells **1–3** (environment setup)
+   - Skip Cells **4–8** if you don’t need preset voices
+   - Run Cells **9–13** for voice cloning
+   
 5. Upload a short reference audio clip (3–20 seconds) for voice cloning
 6. Enter the transcription of your clip and the text you want generated
 7. Generate and download your cloned voice!
@@ -204,7 +211,7 @@ print("Supported speakers:", model.get_supported_speakers())
 print("Supported languages:", model.get_supported_languages())
 ```
 
-> **Note:** You'll see two warnings after this cell runs — `flash-attn not installed` and `HF_TOKEN` not set. Both are expected on Colab's free T4 GPU and can be ignored. FlashAttention 2 is recommended by upstream but requires Ampere-class hardware (A100 or newer) — T4 doesn't support it. The model runs correctly on the manual PyTorch fallback.
+> **Note:** You'll see two warnings after this cell runs — `flash-attn not installed` and `HF_TOKEN` not set. Both are expected on Colab's free T4 GPU and can be ignored. FlashAttention 2 is recommended by upstream but requires Ampere-class hardware (A100 or newer) not available on Colab’s T4 GPUs. Qwen3-TTS falls back to standard PyTorch attention and runs correctly.
 
 ### Cell 5 — Generate Speech (Single Segment)
 
