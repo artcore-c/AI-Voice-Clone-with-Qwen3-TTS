@@ -296,7 +296,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-## Cell 10 — Load the Base Model (Voice Cloning)
+### Cell 10 — Load the Base Model (Voice Cloning)
 Swaps out **CustomVoice** for **Base**.
 If you already ran Cells 4–8, restart the runtime to free VRAM, then re-run Cells 1–3 before continuing.
 
