@@ -285,7 +285,7 @@ Once the pipeline works, switch to the 1.7B models by changing the model name:
 Generation will be slower but more natural and closer to real speech.
 
 ---
-# Voice Cloning
+## Voice Cloning
 
 ### Cell 9 — Mount Google Drive
 
