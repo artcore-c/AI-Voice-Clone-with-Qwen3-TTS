@@ -34,7 +34,7 @@ Qwen3-TTS uses a discrete speech-token language-model architecture and supports 
 
 Providing the transcription of your reference clip (`ref_text`) improves phonetic alignment and cloning accuracy, especially with very short samples.
 
-**Voice design** (1.7B only) generates a brand new speaker from a text description. No reference audio needed — just describe the voice characteristics you want.
+**VoiceDesign** (1.7B only) generates a brand new speaker from a text description. No reference audio needed — just describe the voice characteristics you want.
 
 ---
 ## Technical Stack
@@ -145,7 +145,7 @@ This repository was created as a companion to the YouTube video covering:
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
 
-3. **Preset/Custom Voice**
+3. **Preset/CustomVoice**
    - Run Cells **1–8** in order  
      _(first run will download model weights)_
 
