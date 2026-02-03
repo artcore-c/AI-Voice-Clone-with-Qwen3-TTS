@@ -123,12 +123,131 @@ Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video containers
 
 ---
 
-## Notebooks
+## Notebook Build Guide (Google Colab)
 
-| Notebook                | What it does                                        |
-| ----------------------- | --------------------------------------------------- |
-| `qwen3_tts_basic.ipynb` | Preset voices, style instructions, batch generation |
-| `qwen3_tts_clone.ipynb` | Upload your audio, clone your voice, batch segments |
+This project does not provide a prebuilt Colab notebook.
+
+Instead, we document the exact steps and cell order used to build a working notebook so readers can reproduce, adapt, and extend the workflow themselves. This avoids breakage from Colab environment changes and keeps the process transparent.
+
+Create a new blank notebook in Google Colab and follow the steps below.
+
+---
+
+### Cell 1 — Enable GPU Runtime
+
+In Google Colab:
+- Runtime → Change runtime type
+- Set Hardware accelerator to GPU (T4)
+
+Then verify CUDA is available:
+
+```python
+import torch
+print("CUDA available:", torch.cuda.is_available())
+print("GPU:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "None")
+```
+
+### Cell 2 — Install System Dependencies
+
+These are required for audio loading, conversion, and saving:
+
+```python
+!apt-get update -qq
+!apt-get install -y -qq ffmpeg sox libsndfile1
+```
+
+### Cell 3 — Install Qwen3-TTS
+
+Install the official Python package. Model weights are downloaded automatically on first use.
+
+```python
+!pip install -U qwen-tts
+```
+
+###Cell 4 — Load the Model (Preset Voices)
+
+Start with the 0.6B CustomVoice model for faster iteration. You can switch to 1.7B later for higher quality.
+
+```python
+import torch
+import soundfile as sf
+from qwen_tts import Qwen3TTSModel
+
+model = Qwen3TTSModel.from_pretrained(
+    "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+    device_map="cuda:0",
+    dtype=torch.float16,
+)
+
+print("Model loaded")
+print("Supported speakers:", model.get_supported_speakers())
+print("Supported languages:", model.get_supported_languages())
+```
+
+### Cell 5 — Generate Speech (Single Segment)
+
+Edit the text and speaker as desired.
+
+```python
+from IPython.display import Audio, display
+
+text = "This is a test of Qwen3-TTS running on Google Colab."
+speaker = model.get_supported_speakers()[0]
+
+wavs, sr = model.generate_custom_voice(
+    text=text,
+    language="English",
+    speaker=speaker,
+)
+
+output_path = "qwen3_tts_test.wav"
+sf.write(output_path, wavs[0], sr)
+
+display(Audio(output_path))
+print(f"Saved: {output_path}")
+```
+
+### Cell 6 — Batch Generation (Recommended for Long Narration)
+
+Generate long scripts in segments for better control and stability.
+
+```python
+segments = [
+    "This is the first segment of narration.",
+    "This is the second segment, generated separately.",
+    "This approach works well for long-form content."
+]
+
+for i, segment in enumerate(segments):
+    wavs, sr = model.generate_custom_voice(
+        text=segment,
+        language="English",
+        speaker=speaker,
+    )
+    path = f"segment_{i:02d}.wav"
+    sf.write(path, wavs[0], sr)
+    print(f"Saved: {path}")
+```
+
+### Cell 7 — Download Generated Audio
+
+```python
+from google.colab import files
+files.download("qwen3_tts_test.wav")
+```
+(Repeat for any batch segments you want to download.)
+
+### Switching to Higher Quality (Optional)
+
+Once the pipeline works, switch to the 1.7B models by changing the model name:
+
+```python
+"Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
+```
+
+Generation will be slower but more natural and closer to real speech.
+
+---
 
 ### Quick Start
 
