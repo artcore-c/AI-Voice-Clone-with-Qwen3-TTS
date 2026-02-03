@@ -378,7 +378,7 @@ wavs, sr = model.generate_voice_clone(
 - **Preset voices:** Preset speakers are strongest in their native accents/languages—try a few for best English results. ￼
 - **Long narration:** Generate long scripts in segments (e.g., 30–90 seconds) for smoother iteration.
 
-> **Note:** While our local development platform been upgraded to Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
+> **Note:** While our local development platform has been upgraded to Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
 
 ---
 ## Notes:
