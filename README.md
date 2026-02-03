@@ -296,8 +296,15 @@ from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-### Cell 10 — Load the Base Model (Voice Cloning)
-Swaps out CustomVoice for Base. If you already ran Cells 4–8, restart the runtime first to free VRAM. Then run cells 1-3 again before proceeding with cell 10.
+## Cell 10 — Load the Base Model (Voice Cloning)
+Swaps out **CustomVoice** for **Base**.
+If you already ran Cells 4–8, restart the runtime to free VRAM, then re-run Cells 1–3 before continuing.
+
+Choose one of the following Base models:
+
+### Cell 10a — Load the Base Model (Voice Cloning - 0.6B)
+Fastest to load and useful for pipeline testing and short experiments.
+Cloning quality is functional but may lack speaker nuance compared to larger models _(though results may improve signifigantly with clean, higher-quality reference samples and slightly longer durations)_.
 
 ```python
 import torch
@@ -310,7 +317,25 @@ model = Qwen3TTSModel.from_pretrained(
     dtype=torch.bfloat16,
 )
 
-print("Base model loaded — ready for voice cloning")
+print("Base model (0.6B) loaded — ready for voice cloning")
+```
+
+### Cell 10b — Load the Base Model (Voice Cloning - 1.7B) **[Recommended]**
+Higher-fidelity voice cloning with noticeably improved tone, cadence, and speaker identity.
+Larger download (≈4.5 GB), but strongly recommended for best overall results.
+
+```python
+import torch
+import soundfile as sf
+from qwen_tts import Qwen3TTSModel
+
+model = Qwen3TTSModel.from_pretrained(
+    "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+    device_map="cuda:0",
+    dtype=torch.bfloat16,
+)
+
+print("Base model (1.7B) loaded — ready for voice cloning")
 ```
 
 ### Cell 11 — Clone Your Voice (Single Segment)
