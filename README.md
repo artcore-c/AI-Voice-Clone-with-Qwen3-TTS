@@ -204,6 +204,8 @@ print("Supported speakers:", model.get_supported_speakers())
 print("Supported languages:", model.get_supported_languages())
 ```
 
+> **Note:** You'll see two warnings after this cell runs — `flash-attn not installed` and `HF_TOKEN` not set. Both are expected on Colab's free T4 GPU and can be ignored. FlashAttention 2 is recommended by upstream but requires Ampere-class hardware (A100 or newer) — T4 doesn't support it. The model runs correctly on the manual PyTorch fallback.
+
 ### Cell 5 — Generate Speech (Single Segment)
 
 Edit the text and speaker as desired.
