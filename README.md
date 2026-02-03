@@ -80,14 +80,16 @@ All fit in a Colab T4's 16 GB VRAM. Start with 0.6B, step up to 1.7B for better 
 ## Requirements
 
 - Google account (for Google Colab and Google Drive)
-- For voice cloning: 3–20 seconds of clean reference audio in WAV 
+- For voice cloning: 3–20 seconds of clean reference audio in WAV
   - Best results: clear speech, minimal background noise
   - Mix of scripted and natural speaking recommended
 - Google Colab with T4 GPU runtime (available with free plan but subject to usage limits)
 - No Python installation needed locally (runs in Colab)
 
 ## Prerequisites
+
 ### 🎤Audio File
+
 - .wav or .mp3 sample audio file uploaded to your Google Drive
 - 3-20 seconds in length
 - 16-bit or 24-bit, 44.1kHz or 48kHz sample rate recommended
@@ -95,6 +97,7 @@ All fit in a Colab T4's 16 GB VRAM. Start with 0.6B, step up to 1.7B for better 
 #### Converting Audio to WAV
 
 **macOS (built-in tool):**
+
 ```zsh
 # afconvert comes pre-installed on macOS
 afconvert -f WAVE -d LEI16 input.m4a output.wav
@@ -103,6 +106,7 @@ afconvert -f WAVE -d LEI16 input.m4a output.wav
 **Mac/Linux/Windows (use ffmpeg):**
 
 Install ffmpeg first:
+
 ```zsh
 # macOS with MacPorts
 sudo port install ffmpeg
@@ -115,6 +119,7 @@ choco install ffmpeg
 ```
 
 Convert audio:
+
 ```zsh
 ffmpeg -i input.m4a -ar 24000 output.wav
 ```
@@ -123,29 +128,32 @@ Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video formats.
 
 #### See **Notes:** section below for Hardware Recommendations
 
-___
+---
 ## 🎬 Video Guide
 
 [![AI Voice Clone with Colab + Qwen3-TTS (Free)](https://img.youtube.com/vi/CgDs8WL5YSE/maxresdefault.jpg)](https://youtu.be/CgDs8WL5YSE)
 
 This repository was created as a companion to the YouTube video covering:
+
 - **Qwen3-TTS** setup with Google Colab
 
-___
+---
 ## 🚀 Quick Start
 
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
-3. Run cells 1 - 7 in order  
-   *(first run will download model weights)*
-4. Upload a short reference audio clip (3–20 seconds) for voice cloning
-5. Enter the transcription of your clip and the text you want generated
-6. Generate and download your cloned voice!
+3. For **Preset/Custom Voice** run cells 1 - 7 in order  
+   _(first run will download model weights)_
+4. For **Voice Cloning** run cells 8 - 12 in order
+5. Upload a short reference audio clip (3–20 seconds) for voice cloning
+6. Enter the transcription of your clip and the text you want generated
+7. Generate and download your cloned voice!
 
 ---
 ### Cell 1 — Enable GPU Runtime
 
 In Google Colab:
+
 - Runtime → Change runtime type
 - Set Hardware accelerator to GPU (T4)
 
@@ -245,6 +253,7 @@ for i, segment in enumerate(segments):
 from google.colab import files
 files.download("qwen3_tts_test.wav")
 ```
+
 (Repeat for any batch segments you want to download.)
 
 ### Switching to Higher Quality (Optional)
@@ -258,13 +267,116 @@ Once the pipeline works, switch to the 1.7B models by changing the model name:
 Generation will be slower but more natural and closer to real speech.
 
 ---
+## Voice Cloning
+
+### Cell 8 — Mount Google Drive
+
+Upload your reference audio to Drive first, then mount it here.
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+### Cell 9 — Load the Base Model (Voice Cloning)
+Swaps out CustomVoice for Base. If you already ran Cells 4–7, restart the runtime first to free VRAM.
+
+```python
+import torch
+import soundfile as sf
+from qwen_tts import Qwen3TTSModel
+
+model = Qwen3TTSModel.from_pretrained(
+    "Qwen/Qwen3-TTS-12Hz-0.6B-Base",
+    device_map="cuda:0",
+    dtype=torch.bfloat16,
+)
+
+print("Base model loaded — ready for voice cloning")
+```
+
+### Cell 10 — Clone Your Voice (Single Segment)
+Edit the three variables: your audio path, its transcription, and the text you want generated.
+
+```python
+from IPython.display import Audio, display
+
+# --- Edit these ---
+ref_audio_path = "/content/drive/MyDrive/your_reference.wav"
+ref_text = "This is exactly what was said in the reference clip."
+target_text = "This is the new text you want generated in your voice."
+# -----------------
+
+wavs, sr = model.generate_voice_clone(
+    text=target_text,
+    language="English",
+    ref_audio=ref_audio_path,
+    ref_text=ref_text,
+)
+
+output_path = "cloned_voice.wav"
+sf.write(output_path, wavs[0], sr)
+
+display(Audio(output_path))
+print(f"Saved: {output_path}")
+```
+
+### Cell 11 — Batch Cloning with Cached Prompt (Recommended)
+For multiple segments, cache the speaker embedding first. This avoids re-extracting from your reference audio on every iteration — significant speedup for longer scripts.
+
+```python
+# Cache the speaker embedding once
+prompt = model.create_voice_clone_prompt(
+    ref_audio=ref_audio_path,
+    ref_text=ref_text,
+)
+
+segments = [
+    "This is the first segment of your narration.",
+    "This is the second segment, same voice, no re-upload.",
+    "Batch cloning keeps things consistent across the whole script."
+]
+
+for i, segment in enumerate(segments):
+    wavs, sr = model.generate_voice_clone(
+        text=segment,
+        language="English",
+        voice_clone_prompt=prompt,
+    )
+    path = f"clone_segment_{i:02d}.wav"
+    sf.write(path, wavs[0], sr)
+    print(f"Saved: {path}")
+```
+
+### Cell 12 — Download Cloned Audio
+
+```python
+from google.colab import files
+files.download("cloned_voice.wav")
+```
+
+(Repeat for any batch segments.)
+
+### Fallback — No Transcription Available
+If you can't transcribe the reference clip, this mode still works but quality may drop:
+
+```python
+wavs, sr = model.generate_voice_clone(
+    text=target_text,
+    language="English",
+    ref_audio=ref_audio_path,
+    x_vector_only_mode=True,
+)
+```
+
+---
 ## Best Results
 
-- **GPU recommended:** Runs best on an NVIDIA GPU (Colab T4 works well). CPU is not practical for voice cloning.  ￼
-- **Preset voices:** Preset speakers are strongest in their native accents/languages—try a few for best English results.  ￼
+- **GPU recommended:** Best results are achieved on Colab’s T4-class GPUs.
+- **Preset voices:** Preset speakers are strongest in their native accents/languages—try a few for best English results. ￼
 - **Long narration:** Generate long scripts in segments (e.g., 30–90 seconds) for smoother iteration.
 
-> **Note:** While our local development platform is Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
+> **Note:** While our local development platform been upgraded to Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
 
 ---
 ## Notes:
@@ -272,16 +384,19 @@ Generation will be slower but more natural and closer to real speech.
 ### Recording Equipment (Minimum Recommended)
 
 **Recommended for best results while recording audio samples:**
-- USB audio interface (*we used an Arturia MiniFuse 2*)
-- Condenser or shotgun microphone (*we used an Audio-Technica AT875R*)
+
+- USB audio interface (_we used an Arturia MiniFuse 2_)
+- Condenser or shotgun microphone (_we used an Audio-Technica AT875R_)
 - Quiet recording environment
 
 **Acceptable minimum:**
-- Smartphone (*eg. iPhone 8+*) in a quiet room
+
+- Smartphone (_eg. iPhone 8+_) in a quiet room
 - USB microphone with cardioid pattern
 - Desktop/Laptop built-in mic in very quiet environment (quality will be lower)
 
-**Background noise:** 
+**Background noise:**
+
 - More important than mic quality. Record in a quiet space.
 
 ---
@@ -311,10 +426,11 @@ We're grateful to the open-source community for making voice cloning accessible 
 ## ⚠️ GPU Usage Limits
 
 **Colab Free Plan Limitations:**
-- In the free version of Colab notebooks can run for at most 12 hours, depending on availability and usage patterns. 
+
+- In the free version of Colab notebooks can run for at most 12 hours, depending on availability and usage patterns.
 - Colab Pro and Pay As You Go offer increased compute availability based on your compute unit balance.
 - If unavailable, wait 12+ hours or consider Colab Pro ($9.99/month) for increased access.
 
-
 ## Support
+
 Questions? Check the video tutorial or open an issue!
