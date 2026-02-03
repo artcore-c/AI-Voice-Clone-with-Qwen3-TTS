@@ -2,7 +2,7 @@
 
 Free voice cloning for creators using **Qwen3-TTS** on Google Colab.  
 Clone your voice from as little as **3–20 seconds of audio** for consistent narration and voiceovers.  
-Complete guide to build your own Colab notebook. **Apache 2.0 licensed.**
+Complete guide to build your own notebook. **Apache 2.0 licensed.**
 
 ---
 ## Overview
@@ -79,60 +79,47 @@ All fit in a Colab T4's 16 GB VRAM. Start with 0.6B, step up to 1.7B for better 
 ---
 ## Requirements
 
-- Google account (for Colab and Google Drive)
-- Google Colab with T4 GPU runtime (free plan, subject to availability)
-- For voice cloning: 3–20 seconds of clean reference audio in WAV format
-- No local Python installation needed
+- Google account (for Google Colab and Google Drive)
+- For voice cloning: 3–20 seconds of clean reference audio in WAV 
+  - Best results: clear speech, minimal background noise
+  - Mix of scripted and natural speaking recommended
+- Google Colab with T4 GPU runtime (available with free plan but subject to usage limits)
+- No Python installation needed locally (runs in Colab)
 
----
-## Preparing Your Audio
+## Prerequisites
+### 🎤Audio File
+- .wav or .mp3 sample audio file uploaded to your Google Drive
+- 3-20 seconds in length
+- 16-bit or 24-bit, 44.1kHz or 48kHz sample rate recommended
 
-For voice cloning, clean audio matters more than length. Aim for clear speech with minimal background noise.
+#### Converting Audio to WAV
 
-**Recommended recording setup:**
-
-- USB audio interface (e.g. Arturia MiniFuse 2)
-- Condenser or shotgun microphone (e.g. Audio-Technica AT875R)
-- Quiet environment
-
-**Acceptable minimum:**
-
-- Smartphone in a quiet room
-- USB microphone with cardioid pattern
-- Laptop mic in a very quiet space (quality will be lower)
-
-**Target specs:** mono, 24 kHz or higher, 16-bit or 24-bit. WAV format preferred.
-
-### Converting Audio to WAV
-
-**macOS (built-in):**
-
-```bash
+**macOS (built-in tool):**
+```zsh
+# afconvert comes pre-installed on macOS
 afconvert -f WAVE -d LEI16 input.m4a output.wav
 ```
 
-**macOS / Linux / Windows (ffmpeg):**
+**Mac/Linux/Windows (use ffmpeg):**
 
 Install ffmpeg first:
-
-```bash
+```zsh
 # macOS with MacPorts
 sudo port install ffmpeg
 
-# Ubuntu / Debian
+# Ubuntu/Debian
 sudo apt-get install ffmpeg
 
-# Windows (Chocolatey)
+# Windows (with Chocolatey)
 choco install ffmpeg
 ```
 
-Convert:
-
-```bash
+Convert audio:
+```zsh
 ffmpeg -i input.m4a -ar 24000 output.wav
 ```
 
-Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video containers.
+Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video formats.
 
 #### See **Notes:** section below for Hardware Recommendations
 
