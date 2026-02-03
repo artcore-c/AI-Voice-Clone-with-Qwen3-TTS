@@ -144,9 +144,9 @@ This repository was created as a companion to the YouTube video covering:
 
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
-3. For **Preset/Custom Voice** run cells 1 - 7 in order  
+3. For **Preset/Custom Voice** run cells 1 - 8 in order  
    _(first run will download model weights)_
-4. For **Voice Cloning** run cells 8 - 12 in order
+4. For **Voice Cloning** run cells 9 - 13 in order
 5. Upload a short reference audio clip (3–20 seconds) for voice cloning
 6. Enter the transcription of your clip and the text you want generated
 7. Generate and download your cloned voice!
@@ -229,7 +229,13 @@ display(Audio(output_path))
 print(f"Saved: {output_path}")
 ```
 
-### Cell 6 — Batch Generation (Recommended for Long Narration)
+### Cell 6 — Download Generated Audio
+
+```python
+from google.colab import files
+files.download("qwen3_tts_test.wav")
+```
+### Cell 7 — Batch Generation (Recommended for Long Narration)
 
 Generate long scripts in segments for better control and stability.
 
@@ -251,14 +257,15 @@ for i, segment in enumerate(segments):
     print(f"Saved: {path}")
 ```
 
-### Cell 7 — Download Generated Audio
+(Repeat for any batch segments you want to download.)
+
+### Cell 8 — Download Batch Audio
 
 ```python
 from google.colab import files
-files.download("qwen3_tts_test.wav")
+for i in range(3):
+    files.download(f"segment_{i:02d}.wav")
 ```
-
-(Repeat for any batch segments you want to download.)
 
 ### Switching to Higher Quality (Optional)
 
@@ -273,7 +280,7 @@ Generation will be slower but more natural and closer to real speech.
 ---
 ## Voice Cloning
 
-### Cell 8 — Mount Google Drive
+### Cell 9 — Mount Google Drive
 
 Upload your reference audio to Drive first, then mount it here.
 
@@ -282,7 +289,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-### Cell 9 — Load the Base Model (Voice Cloning)
+### Cell 10 — Load the Base Model (Voice Cloning)
 Swaps out CustomVoice for Base. If you already ran Cells 4–7, restart the runtime first to free VRAM.
 
 ```python
@@ -299,7 +306,7 @@ model = Qwen3TTSModel.from_pretrained(
 print("Base model loaded — ready for voice cloning")
 ```
 
-### Cell 10 — Clone Your Voice (Single Segment)
+### Cell 11 — Clone Your Voice (Single Segment)
 Edit the three variables: your audio path, its transcription, and the text you want generated.
 
 ```python
@@ -325,7 +332,7 @@ display(Audio(output_path))
 print(f"Saved: {output_path}")
 ```
 
-### Cell 11 — Batch Cloning with Cached Prompt (Recommended)
+### Cell 12 — Batch Cloning with Cached Prompt (Recommended)
 For multiple segments, cache the speaker embedding first. This avoids re-extracting from your reference audio on every iteration — significant speedup for longer scripts.
 
 ```python
@@ -352,7 +359,7 @@ for i, segment in enumerate(segments):
     print(f"Saved: {path}")
 ```
 
-### Cell 12 — Download Cloned Audio
+### Cell 13 — Download Cloned Audio
 
 ```python
 from google.colab import files
