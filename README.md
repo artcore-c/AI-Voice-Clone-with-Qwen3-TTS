@@ -258,16 +258,6 @@ Once the pipeline works, switch to the 1.7B models by changing the model name:
 Generation will be slower but more natural and closer to real speech.
 
 ---
-## Voice Cloning Workflow
-
-1. Record 3–20 seconds of clean speech (see audio prep above)
-2. Upload to the clone notebook
-3. Type the transcription of your clip into `ref_text` — the model uses both audio and text together for phonetic alignment
-4. Generate. Download. Done.
-
-No audio ever hits an external server.
-
----
 ## Best Results
 
 - **GPU recommended:** Runs best on an NVIDIA GPU (Colab T4 works well). CPU is not practical for voice cloning.  ￼
