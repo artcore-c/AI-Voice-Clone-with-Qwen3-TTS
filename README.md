@@ -145,7 +145,7 @@ This repository was created as a companion to the YouTube video covering:
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
 
-3. **Preset / Custom Voice**
+3. **Preset/Custom Voice**
    - Run Cells **1–8** in order  
      _(first run will download model weights)_
 
@@ -153,7 +153,7 @@ This repository was created as a companion to the YouTube video covering:
    - Run Cells **1–3** (environment setup)
    - Skip Cells **4–8** if you don’t need preset voices
    - Run Cells **9–13** for voice cloning
-   
+
 5. Upload a short reference audio clip (3–20 seconds) for voice cloning
 6. Enter the transcription of your clip and the text you want generated
 7. Generate and download your cloned voice!
