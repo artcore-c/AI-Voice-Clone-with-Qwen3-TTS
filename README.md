@@ -297,7 +297,7 @@ drive.mount('/content/drive')
 ```
 
 ### Cell 10 — Load the Base Model (Voice Cloning)
-Swaps out CustomVoice for Base. If you already ran Cells 4–8, restart the runtime first to free VRAM.
+Swaps out CustomVoice for Base. If you already ran Cells 4–8, restart the runtime first to free VRAM. Then run cells 1-3 again before proceeding with cell 10.
 
 ```python
 import torch
