@@ -157,8 +157,7 @@ ___
 
 ## 🚀 Quick Start
 
-1. Open Google Colab:  
-   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
 3. Follow the **Notebook Build Guide** below and run the cells in order  
    *(first run will download model weights)*
