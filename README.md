@@ -38,8 +38,8 @@ Providing the transcription of your reference clip (`ref_text`) improves phoneti
 ## Technical Stack
 
 - **Model:** Qwen3-TTS (0.6B and 1.7B variants)
-- **Framework:** PyTorch with CUDA acceleration
-- **Inference:** Runs on Google Colab’s free NVIDIA T4 GPU (16 GB VRAM)
+- **Framework:** PyTorch with CUDA support
+- **Inference:** Runs on Google Colab’s free T4 GPU (16 GB VRAM)
 - **Sample Rate:** 24 kHz output
 - **Languages:** Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian
 
