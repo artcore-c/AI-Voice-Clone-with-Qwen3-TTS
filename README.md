@@ -121,6 +121,30 @@ ffmpeg -i input.m4a -ar 24000 output.wav
 
 Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video containers.
 
+#### See **Notes:** section below for Hardware Recommendations
+
+___
+
+## 🎬 Video Guide
+
+[![AI Voice Clone with Colab + Qwen3-TTS (Free)](https://img.youtube.com/vi/CgDs8WL5YSE/maxresdefault.jpg)](https://youtu.be/CgDs8WL5YSE)
+
+This repository was created as a companion to the YouTube video covering:
+- **Qwen3-TTS** setup with Google Colab
+
+___
+
+## 🚀 Quick Start
+
+1. Open Google Colab:  
+   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
+3. Follow the **Notebook Build Guide** below and run the cells in order  
+   *(first run will download model weights)*
+4. Upload a short reference audio clip (3–20 seconds) for voice cloning
+5. Enter the transcription of your clip and the text you want generated
+6. Generate and download your cloned voice!
+
 ---
 
 ## Notebook Build Guide (Google Colab)
@@ -246,15 +270,6 @@ Once the pipeline works, switch to the 1.7B models by changing the model name:
 ```
 
 Generation will be slower but more natural and closer to real speech.
-
----
-
-### Quick Start
-
-1. Open a notebook in Google Colab
-2. **Runtime → Change runtime type → GPU (T4)**
-3. Run cells top to bottom
-4. Edit the text, speaker, or audio variables in the cells marked `--- Edit ---`
 
 ---
 
