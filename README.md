@@ -5,7 +5,6 @@ Clone your voice from as little as **3–20 seconds of audio** for consistent na
 Complete guide to build your own Colab notebook. **Apache 2.0 licensed.**
 
 ---
-
 ## Overview
 
 **Qwen3-TTS** is a multilingual text-to-speech system with high-quality **zero-shot voice cloning** capabilities.  
@@ -16,7 +15,6 @@ Unlike many creator-facing TTS systems, Qwen3-TTS is fully open-source (Apache 2
 This repository focuses specifically on **voice cloning workflows for creators**, even though Qwen3-TTS also supports preset voices and text-designed speakers.
 
 ---
-
 ## How It Works
 
 ### Voice Cloning Process
@@ -37,7 +35,6 @@ Providing the transcription of your reference clip (`ref_text`) improves phoneti
 **Voice design** (1.7B only) generates a brand new speaker from a text description. No reference audio needed — just describe the voice characteristics you want.
 
 ---
-
 ## Technical Stack
 
 - **Model:** Qwen3-TTS (0.6B and 1.7B variants)
@@ -47,7 +44,6 @@ Providing the transcription of your reference clip (`ref_text`) improves phoneti
 - **Languages:** Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian
 
 ---
-
 ## Why Google Colab?
 
 Qwen3-TTS benefits from GPU-accelerated inference, which supports practical voice cloning workflows and faster iteration.
@@ -57,7 +53,6 @@ Google Colab provides free access to GPU-accelerated computing well-suited for r
 All inference runs **inside your Colab session** — no audio is uploaded to third-party APIs.
 
 ---
-
 ## Intended Use Cases
 
 - Consistent narration across multiple recording sessions
@@ -67,7 +62,6 @@ All inference runs **inside your Colab session** — no audio is uploaded to thi
 - Exploring preset voices and style control for creative projects
 
 ---
-
 ## Models
 
 All weights are on HuggingFace. The `qwen-tts` package downloads them automatically on first load.
@@ -83,7 +77,6 @@ All weights are on HuggingFace. The `qwen-tts` package downloads them automatica
 All fit in a Colab T4's 16 GB VRAM. Start with 0.6B, step up to 1.7B for better quality.
 
 ---
-
 ## Requirements
 
 - Google account (for Colab and Google Drive)
@@ -92,7 +85,6 @@ All fit in a Colab T4's 16 GB VRAM. Start with 0.6B, step up to 1.7B for better 
 - No local Python installation needed
 
 ---
-
 ## Preparing Your Audio
 
 For voice cloning, clean audio matters more than length. Aim for clear speech with minimal background noise.
@@ -145,7 +137,6 @@ Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video containers
 #### See **Notes:** section below for Hardware Recommendations
 
 ___
-
 ## 🎬 Video Guide
 
 [![AI Voice Clone with Colab + Qwen3-TTS (Free)](https://img.youtube.com/vi/CgDs8WL5YSE/maxresdefault.jpg)](https://youtu.be/CgDs8WL5YSE)
@@ -154,29 +145,17 @@ This repository was created as a companion to the YouTube video covering:
 - **Qwen3-TTS** setup with Google Colab
 
 ___
-
 ## 🚀 Quick Start
 
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
-3. Follow the **Notebook Build Guide** below and run the cells in order  
+3. Run cells 1 - 7 in order  
    *(first run will download model weights)*
 4. Upload a short reference audio clip (3–20 seconds) for voice cloning
 5. Enter the transcription of your clip and the text you want generated
 6. Generate and download your cloned voice!
 
 ---
-
-## Notebook Build Guide
-
-This project does not provide a prebuilt Colab notebook.
-
-Instead, we document the exact steps and cell order used to build a working notebook so readers can reproduce, adapt, and extend the workflow themselves. This avoids breakage from Colab environment changes and keeps the process transparent.
-
-Create a new blank notebook in Google Colab and follow the steps below.
-
----
-
 ### Cell 1 — Enable GPU Runtime
 
 In Google Colab:
@@ -208,7 +187,7 @@ Install the official Python package. Model weights are downloaded automatically 
 !pip install -U qwen-tts
 ```
 
-###Cell 4 — Load the Model (Preset Voices)
+### Cell 4 — Load the Model (Preset Voices)
 
 Start with the 0.6B CustomVoice model for faster iteration. You can switch to 1.7B later for higher quality.
 
@@ -292,7 +271,6 @@ Once the pipeline works, switch to the 1.7B models by changing the model name:
 Generation will be slower but more natural and closer to real speech.
 
 ---
-
 ## Voice Cloning Workflow
 
 1. Record 3–20 seconds of clean speech (see audio prep above)
@@ -303,7 +281,6 @@ Generation will be slower but more natural and closer to real speech.
 No audio ever hits an external server.
 
 ---
-
 ## Best Results
 
 - **GPU recommended:** Runs best on an NVIDIA GPU (Colab T4 works well). CPU is not practical for voice cloning.  ￼
@@ -313,22 +290,27 @@ No audio ever hits an external server.
 > **Note:** While our development platform is Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
 
 ---
-
-## ⚠️ GPU Usage Limits
-
-Colab's free plan has session time limits (up to 12 hours depending on availability and usage patterns). If the runtime disconnects mid-generation, the notebook can be resumed — model download is cached within the session.
-
-If free-tier GPU access is unavailable, wait 12+ hours or consider Colab Pro ($9.99/month) for increased compute availability.
-
----
-
-## Credits
-
-- **Qwen3-TTS** by [Qwen / Alibaba Cloud](https://github.com/QwenLM/Qwen3-TTS) — Apache 2.0
-- **Notebooks** by [artcore-c](https://github.com/artcore-c) — Apache 2.0
-
----
-
 ## License
 
 **Apache 2.0**
+
+## Acknowledgements
+
+This project builds upon:
+
+- **[Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS)** - Open-source models and framework
+- **[Google Colab](https://colab.research.google.com)** - Free GPU infrastructure
+- **[PyTorch](https://pytorch.org)** - Deep learning framework
+
+We're grateful to the open-source community for making voice cloning accessible to all creators.
+
+## ⚠️ GPU Usage Limits
+
+**Colab Free Plan Limitations:**
+- In the free version of Colab notebooks can run for at most 12 hours, depending on availability and usage patterns. 
+- Colab Pro and Pay As You Go offer increased compute availability based on your compute unit balance.
+- If unavailable, wait 12+ hours or consider Colab Pro ($9.99/month) for increased access.
+
+
+## Support
+Questions? Check the video tutorial or open an issue!
