@@ -38,7 +38,7 @@ Providing the transcription of your reference clip (`ref_text`) improves phoneti
 ## Technical Stack
 
 - **Model:** Qwen3-TTS (0.6B and 1.7B variants)
-- **Framework:** PyTorch with CUDA support
+- **Framework:** PyTorch
 - **Inference:** Runs on Google Colab’s free T4 GPU (16 GB VRAM)
 - **Sample Rate:** 24 kHz output
 - **Languages:** Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian
@@ -288,6 +288,33 @@ No audio ever hits an external server.
 - **Long narration:** Generate long scripts in segments (e.g., 30–90 seconds) for smoother iteration.
 
 > **Note:** While our development platform is Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
+
+---
+## Notes:
+
+### Recording Equipment (Minimum Recommended)
+
+**Recommended for best results while recording audio samples:**
+- USB audio interface (*we used an Arturia MiniFuse 2*)
+- Condenser or shotgun microphone (*we used an Audio-Technica AT875R*)
+- Quiet recording environment
+
+**Acceptable minimum:**
+- Smartphone (*eg. iPhone 8+*) in a quiet room
+- USB microphone with cardioid pattern
+- Desktop/Laptop built-in mic in very quiet environment (quality will be lower)
+
+**Background noise:** 
+- More important than mic quality. Record in a quiet space.
+
+---
+## PyTorch & GPU Notes
+
+This workflow uses PyTorch for model loading and inference. When running on Google Colab, PyTorch automatically detects and uses the available GPU runtime.
+
+No manual CUDA configuration or version pinning is required for the steps described in this guide. Model weights and dependencies are resolved automatically by the `qwen-tts` package and the Colab environment.
+
+If a GPU runtime is unavailable, inference may fall back to CPU, but GPU-backed runtimes are recommended for practical voice cloning workflows.
 
 ---
 ## License
