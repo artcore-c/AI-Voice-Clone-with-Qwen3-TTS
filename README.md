@@ -149,6 +149,15 @@ No audio ever hits an external server.
 
 ---
 
+## Known Limitations
+
+- **CUDA-only**: Qwen3-TTS is designed for NVIDIA GPUs. CPU inference is extremely slow and not recommended.
+- **Mac local support**: Apple Silicon (MPS) support is experimental and not currently documented here. This project focuses on Colab for reliability.
+- **English quality varies by model**: Preset voices are strongest in their native languages. English works well, but results may vary by speaker.
+- **Long-form generation**: Very long passages (>1–2 minutes) should be generated in segments for stability.
+
+---
+
 ## ⚠️ GPU Usage Limits
 
 Colab's free plan has session time limits (up to 12 hours depending on availability and usage patterns). If the runtime disconnects mid-generation, the notebook can be resumed — model download is cached within the session.
