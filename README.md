@@ -1,4 +1,5 @@
 # AI-Voice-Clone-with-Qwen3-TTS
+
 **Voice cloning and text-to-speech via Google Colab using Qwen3-TTS**
 
 Preset voices and voice cloning from your own audio. Runs entirely on Colab's GPU — model weights pull from HuggingFace, inference stays local. No external accounts or API keys required.
@@ -20,7 +21,7 @@ Built around [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) by Alibaba/Qwen �
 
 ## How It Works
 
-Qwen3-TTS uses a flow-matching architecture to generate speech directly from text. The process differs depending on whether you're using a preset voice or cloning:
+Qwen3-TTS uses a discrete speech-token language-model architecture and supports a dual-track hybrid streaming mode for low-latency synthesis. The process differs depending on whether you're using a preset voice or cloning:
 
 **Preset voices** use the CustomVoice model. You provide text and a speaker name, and optionally a style instruction (e.g. "speak with calm authority"). The model generates speech matching that speaker's characteristics and your style direction.
 
@@ -50,12 +51,12 @@ Running TTS inference on CPU is slow — GPU acceleration is essential for pract
 
 All weights are on HuggingFace. The `qwen-tts` package downloads them automatically on first load.
 
-| Model | Size | Purpose |
-|---|---|---|
-| Qwen3-TTS-12Hz-0.6B-CustomVoice | 2.52 GB | 9 preset voices with style control |
-| Qwen3-TTS-12Hz-0.6B-Base | 2.52 GB | Voice cloning from your audio |
-| Qwen3-TTS-12Hz-1.7B-CustomVoice | 4.54 GB | Preset voices, higher quality |
-| Qwen3-TTS-12Hz-1.7B-Base | 4.54 GB | Voice cloning, higher quality |
+| Model                           | Size    | Purpose                              |
+| ------------------------------- | ------- | ------------------------------------ |
+| Qwen3-TTS-12Hz-0.6B-CustomVoice | 2.52 GB | 9 preset voices with style control   |
+| Qwen3-TTS-12Hz-0.6B-Base        | 2.52 GB | Voice cloning from your audio        |
+| Qwen3-TTS-12Hz-1.7B-CustomVoice | 4.54 GB | Preset voices, higher quality        |
+| Qwen3-TTS-12Hz-1.7B-Base        | 4.54 GB | Voice cloning, higher quality        |
 | Qwen3-TTS-12Hz-1.7B-VoiceDesign | 4.54 GB | Create voices from text descriptions |
 
 All fit in a Colab T4's 16 GB VRAM. Start with 0.6B, step up to 1.7B for better quality.
@@ -124,8 +125,8 @@ Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video containers
 
 ## Notebooks
 
-| Notebook | What it does |
-|---|---|
+| Notebook                | What it does                                        |
+| ----------------------- | --------------------------------------------------- |
 | `qwen3_tts_basic.ipynb` | Preset voices, style instructions, batch generation |
 | `qwen3_tts_clone.ipynb` | Upload your audio, clone your voice, batch segments |
 
@@ -149,12 +150,13 @@ No audio ever hits an external server.
 
 ---
 
-## Known Limitations
+## Best Results
 
-- **CUDA-only**: Qwen3-TTS is designed for NVIDIA GPUs. CPU inference is extremely slow and not recommended.
-- **Mac local support**: Apple Silicon (MPS) support is experimental and not currently documented here. This project focuses on Colab for reliability.
-- **English quality varies by model**: Preset voices are strongest in their native languages. English works well, but results may vary by speaker.
-- **Long-form generation**: Very long passages (>1–2 minutes) should be generated in segments for stability.
+- **GPU recommended:** Runs best on an NVIDIA GPU (Colab T4 works well). CPU is not practical for voice cloning.  ￼
+- **Preset voices:** Preset speakers are strongest in their native accents/languages—try a few for best English results.  ￼
+- **Long narration:** Generate long scripts in segments (e.g., 30–90 seconds) for smoother iteration.
+
+> **Note:** While our development platform is Apple Silicon, (MPS) is experimental; this guide focuses on Colab for consistency.
 
 ---
 
