@@ -23,9 +23,9 @@ This repository focuses specifically on **voice cloning workflows for creators**
 
 Qwen3-TTS uses a discrete speech-token language-model architecture and supports a dual-track hybrid streaming mode for low-latency synthesis. The process differs depending on whether you're using a preset voice or cloning:
 
-**Preset voices** use the CustomVoice model. You provide text and a speaker name, and optionally a style instruction (e.g. "speak with calm authority"). The model generates speech matching that speaker's characteristics and your style direction.
+**Preset voices** use the **CustomVoice** model. You provide text and a speaker name, and optionally a style instruction (e.g. "speak with calm authority"). The model generates speech matching that speaker's characteristics and your style direction.
 
-**Voice cloning** uses the Base model. You provide a reference audio clip and its transcription. The model extracts acoustic features — pitch, tone, cadence, speaking style — and encodes them into a speaker embedding. That embedding is then used to synthesize new text in your voice. The transcription (`ref_text`) gives the model a phonetic alignment target, which improves accuracy over audio alone.
+**Voice cloning** uses the **Base** model. You provide a reference audio clip and its transcription. The model extracts acoustic features — pitch, tone, cadence, speaking style — and encodes them into a speaker embedding. That embedding is then used to synthesize new text in your voice. The transcription (`ref_text`) gives the model a phonetic alignment target, which improves accuracy over audio alone.
 
 - **Audio Analysis** — The model analyzes your reference audio to extract acoustic features such as pitch, tone, cadence, and speaking style.
 - **Speaker Encoding** — These features are encoded into a speaker embedding that represents your vocal identity.
