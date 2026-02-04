@@ -242,6 +242,7 @@ print(f"Saved: {output_path}")
 from google.colab import files
 files.download("qwen3_tts_test.wav")
 ```
+
 ### Cell 7 — Batch Generation (Recommended for Long Narration)
 
 Generate long scripts in segments for better control and stability.
@@ -297,12 +298,14 @@ drive.mount('/content/drive')
 ```
 
 ### Cell 10 — Load the Base Model (Voice Cloning)
+
 Swaps out **CustomVoice** for **Base**.
 If you already ran Cells 4–8, restart the runtime to free VRAM, then re-run Cells 1–3 before continuing.
 
 Choose one of the following Base models:
 
 ### Cell 10a — Load the Base Model (Voice Cloning - 0.6B)
+
 Fastest to load and useful for pipeline testing and short experiments.
 Cloning quality is functional but may lack speaker nuance compared to larger models _(though results may improve signifigantly with clean, higher-quality reference samples and slightly longer durations)_.
 
@@ -321,6 +324,7 @@ print("Base model (0.6B) loaded — ready for voice cloning")
 ```
 
 ### Cell 10b — Load the Base Model (Voice Cloning - 1.7B) **[Recommended]**
+
 Higher-fidelity voice cloning with noticeably improved tone, cadence, and speaker identity.
 Larger download (≈4.5 GB), but strongly recommended for best overall results.
 
@@ -339,6 +343,7 @@ print("Base model (1.7B) loaded — ready for voice cloning")
 ```
 
 ### Cell 11 — Clone Your Voice (Single Segment)
+
 Edit the three variables: your audio path, its transcription, and the text you want generated.
 
 ```python
@@ -365,6 +370,7 @@ print(f"Saved: {output_path}")
 ```
 
 ### Cell 12 — Batch Cloning with Cached Prompt (Recommended)
+
 For multiple segments, cache the speaker embedding first. This avoids re-extracting from your reference audio on every iteration — significant speedup for longer scripts.
 
 ```python
@@ -401,6 +407,7 @@ files.download("cloned_voice.wav")
 (Repeat for any batch segments.)
 
 ### Fallback — No Transcription Available
+
 If you can't transcribe the reference clip, this mode still works but quality may drop:
 
 ```python
@@ -410,6 +417,61 @@ wavs, sr = model.generate_voice_clone(
     ref_audio=ref_audio_path,
     x_vector_only_mode=True,
 )
+```
+
+---
+## VoiceDesign (Optional)
+
+VoiceDesign generates a brand-new speaker from a **text description** (no reference audio needed).  
+Requires the **1.7B VoiceDesign** model.
+
+### Cell 14 — Load the VoiceDesign Model (1.7B)
+
+```python
+import torch
+import soundfile as sf
+from qwen_tts import Qwen3TTSModel
+
+model = Qwen3TTSModel.from_pretrained(
+    "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    device_map="cuda:0",
+    dtype=torch.bfloat16,
+)
+
+print("VoiceDesign model loaded — ready to generate new speakers")
+```
+
+### Cell 15 — Generate a New Voice From a Description
+
+```python
+from IPython.display import Audio, display
+
+# --- Edit these ---
+voice_description = (
+    "Warm and conversational adult voice, calm pacing, lightly textured tone, "
+    "clear articulation, friendly but not overly energetic."
+)
+target_text = "This is a VoiceDesign test. The voice you hear was generated from a text description."
+# -----------------
+
+wavs, sr = model.generate_voice_design(
+    text=target_text,
+    language="English",
+    voice_description=voice_description,
+)
+
+output_path = "voicedesign.wav"
+sf.write(output_path, wavs[0], sr)
+
+display(Audio(output_path))
+print(f"Saved: {output_path}")
+```
+
+### Cell 16 — Download VoiceDesign Output
+
+```python
+from google.colab import files
+files.download("voicedesign.wav")
 ```
 
 ---
