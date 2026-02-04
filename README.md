@@ -454,7 +454,7 @@ If a GPU runtime is unavailable, inference may fall back to CPU, but GPU-backed 
 ---
 ## License
 
-**Apache 2.0**
+This repository's code and documentation: **Apache 2.0**
 
 ## Acknowledgements
 
