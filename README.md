@@ -143,20 +143,28 @@ This repository was created as a companion to the YouTube video covering:
 ## 🚀 Quick Start
 
 1. Open the Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+
 2. Enable GPU: **Runtime → Change runtime type → GPU (T4)**
 
 3. **Preset/CustomVoice**
-   - Run Cells **1–8** in order  
-     _(first run will download model weights)_
+   - Run Cells **1–3** in order (environment setup)
+   - Run Cells **4–8** for preset voices
 
 4. **Voice Cloning**
    - Run Cells **1–3** (environment setup)
-   - Skip Cells **4–8** if you don’t need preset voices
+   - Skip Cells **4–8**
    - Run Cells **9–13** for voice cloning
+   - Upload a short reference audio clip (3–20 seconds) for voice cloning
+   - Enter the transcription of your clip and the text you want generated
+   - Generate and download your cloned voice!
 
-5. Upload a short reference audio clip (3–20 seconds) for voice cloning
-6. Enter the transcription of your clip and the text you want generated
-7. Generate and download your cloned voice!
+5. **VoiceDesign**
+   - Run Cells **1–3** (environment setup)
+   - Skip Cells **4–13**
+   - Run Cells **14–16** for voice design
+
+> **Important**: Only one model (CustomVoice, Base, or VoiceDesign) should be loaded per session.
+> Restart the Colab runtime when switching model families to free GPU memory.
 
 ---
 ### Cell 1 — Enable GPU Runtime
@@ -307,7 +315,7 @@ Choose one of the following Base models:
 ### Cell 10a — Load the Base Model (Voice Cloning - 0.6B)
 
 Fastest to load and useful for pipeline testing and short experiments.
-Cloning quality is functional but may lack speaker nuance compared to larger models _(though results may improve signifigantly with clean, higher-quality reference samples and slightly longer durations)_.
+Cloning quality is functional but may lack speaker nuance compared to larger models _(though results may improve significantly with clean, higher-quality reference samples and slightly longer durations)_.
 
 ```python
 import torch
@@ -422,7 +430,7 @@ wavs, sr = model.generate_voice_clone(
 ---
 ## VoiceDesign (Optional)
 
-VoiceDesign generates a brand-new speaker from a **text description** (no reference audio needed).  
+VoiceDesign generates a new synthetic speaker from a **text description** (no reference audio needed).  
 Requires the **1.7B VoiceDesign** model.
 
 ### Cell 14 — Load the VoiceDesign Model (1.7B)
