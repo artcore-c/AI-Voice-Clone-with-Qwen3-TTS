@@ -133,7 +133,7 @@ Supported input formats: .m4a, .mp3, .mp4, .mov, and most audio/video formats.
 ---
 ## 🎬 Video Guide
 
-[![AI Voice Clone with Colab + Qwen3-TTS (Free)](https://img.youtube.com/vi/CgDs8WL5YSE/maxresdefault.jpg)](https://youtu.be/CgDs8WL5YSE)
+![AI Voice Clone with Colab + Qwen3-TTS (Free)](images/qwen3-tts.png)
 
 This repository was created as a companion to the YouTube video covering:
 
