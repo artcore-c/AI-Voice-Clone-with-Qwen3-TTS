@@ -460,12 +460,14 @@ voice_description = (
     "clear articulation, friendly but not overly energetic."
 )
 target_text = "This is a VoiceDesign test. The voice you hear was generated from a text description."
+instruct = "Please speak naturally and clearly."
 # -----------------
 
 wavs, sr = model.generate_voice_design(
     text=target_text,
     language="English",
     voice_description=voice_description,
+    instruct=instruct,
 )
 
 output_path = "voicedesign.wav"
